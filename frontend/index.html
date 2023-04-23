@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Formulario de gatos</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <h1>Formulario de gatos</h1>
+    <form>
+      <div>
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div>
+        <label for="attack">Ataque:</label>
+        <input type="number" id="attack" name="attack" required>
+      </div>
+      <div>
+        <label for="type">Tipo:</label>
+        <select id="type" name="type" required>
+          <option value="fuego">Fuego</option>
+          <option value="agua">Agua</option>
+          <option value="planta">Planta</option>
+        </select>
+      </div>
+      <div>
+        <label for="speed">Velocidad:</label>
+        <input type="number" id="speed" name="speed" required>
+      </div>
+      <div>
+        <label for="defense">Defensa:</label>
+        <input type="number" id="defense" name="defense" required>
+      </div>
+      <div>
+        <label for="counter">Contrarresta:</label>
+        <input type="text" id="counter" name="counter" required>
+      </div>
+      <div>
+        <label for="strong">Fuerte contra:</label>
+        <input type="text" id="strong" name="strong" required>
+      </div>
+      <div>
+        <label for="image">Imagen:</label>
+        <input type="file" id="image" name="image" required>
+        <img id="preview" src="#" alt="Previsualización de la imagen">
+      </div>
+      <div>
+        <button type="button" onclick="postGato()">Enviar</button>
+        <button type="button" onclick="getGatos()">Enviar</button>
+      </div>
+    </form>
+    <div id="resultado"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="callrestapi.js"></script>
+  </body>
+</html>
