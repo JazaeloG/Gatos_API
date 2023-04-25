@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     defense: DataTypes.INTEGER,
     counter: DataTypes.STRING,
     strong: DataTypes.STRING,
-    image: DataTypes.STRING
+    image: DataTypes.STRING,
+    extension: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Gato',

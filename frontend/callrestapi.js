@@ -66,22 +66,29 @@ function getGatos(){
 
             var arrGatos = json.gatos;
 
-            var htmlTableGatos = '<table border=1">';
+            var htmlTableGatos = '';
 
             arrGatos.forEach(function(item){
                 console.log(item);
-                htmlTableGatos += '<tr>'+
-                                        '<td>' + item.id + '</td>' +
-                                        '<td>' + item.name + '</td>' +
-                                        '<td>' + item.attack + '</td>' +
-                                        '<td>' + item.type + '</td>' +
-                                        '<td>' + item.speed + '</td>' +
-                                        '<td>' + item.defense + '</td>' +
-                                        '<td>' + item.counter + '</td>' +
-                                        '<td>' + item.strong + '</td>' +
-                                        '<td><img src="data:image/png;base64,' + item.image + '"></td>' +
-                                   '</tr>';                   
-            });
+                htmlTableGatos += '<div class="pokemon-card">' +
+                '<div class="pokemon-card__header">' +
+                    '<h2 class="pokemon-card__name">' + item.name + '</h2>' +
+                '</div>' +
+                '<div class="pokemon-card__image">' +
+                    '<img src="data:image/png;base64,' + item.image + '" alt="' + item.name + '">' +
+                '</div>' +
+                '<div class="pokemon-card__body">' +
+                    '<table>' +
+                        '<tr><td>Attack:</td><td>' + item.attack + '</td></tr>' +
+                        '<tr><td>Type:</td><td>' + item.type + '</td></tr>' +
+                        '<tr><td>Speed:</td><td>' + item.speed + '</td></tr>' +
+                        '<tr><td>Defense:</td><td>' + item.defense + '</td></tr>' +
+                        '<tr><td>Counter:</td><td>' + item.counter + '</td></tr>' +
+                        '<tr><td>Strong:</td><td>' + item.strong + '</td></tr>' +
+                    '</table>' +
+                '</div>' +
+            '</div>';                   
+});
             htmlTableGatos += '</table>';
 
             $('#resultado').html(htmlTableGatos);
@@ -90,13 +97,21 @@ function getGatos(){
 }
 
 
-function previewImage() {
-    var preview = $('#preview')[0];
-    var fileInput = $('#image')[0];
-    preview.style.display = "block";
-    preview.src = URL.createObjectURL(fileInput.files[0]);
-}
-$('#image').change(function() {
-    previewImage();
-})
-
+function previewImage(event) {
+    var preview = document.querySelector('#preview');
+    var file = event.target.files[0];
+    var reader = new FileReader();
+  
+    reader.onloadend = function() {
+      preview.src = reader.result;
+      preview.style.display = 'block';
+    }
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = '';
+      preview.style.display = 'none';
+    }
+  }
+  

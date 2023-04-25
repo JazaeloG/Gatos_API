@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Formulario de gatos</title>
+    <title>Gatomems</title>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <h1>Formulario de gatos</h1>
+    <h1>Generar Gatomem</h1>
     <form>
       <div>
         <label for="name">Nombre:</label>
@@ -21,6 +21,10 @@
           <option value="fuego">Fuego</option>
           <option value="agua">Agua</option>
           <option value="planta">Planta</option>
+          <option value="electrico">Electrico</option>
+          <option value="aire">Aire</option>
+          <option value="hielo">Planta</option>
+          <option value="tierra">Tierra</option>
         </select>
       </div>
       <div>
@@ -33,20 +37,39 @@
       </div>
       <div>
         <label for="counter">Contrarresta:</label>
-        <input type="text" id="counter" name="counter" required>
+        <select id="counter" name="counter" required>
+          <option value="fuego">Fuego</option>
+          <option value="agua">Agua</option>
+          <option value="planta">Planta</option>
+          <option value="electrico">Electrico</option>
+          <option value="aire">Aire</option>
+          <option value="hielo">Planta</option>
+          <option value="tierra">Tierra</option>
+        </select>
       </div>
       <div>
         <label for="strong">Fuerte contra:</label>
-        <input type="text" id="strong" name="strong" required>
+        <select id="type" name="type" required>
+          <option value="fuego">Fuego</option>
+          <option value="agua">Agua</option>
+          <option value="planta">Planta</option>
+          <option value="electrico">Electrico</option>
+          <option value="aire">Aire</option>
+          <option value="hielo">Planta</option>
+          <option value="tierra">Tierra</option>
+        </select>
       </div>
       <div>
         <label for="image">Imagen:</label>
-        <input type="file" id="image" name="image" required>
+        <div class="file-upload">
+          <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
+          <span>Upload</span>
+        </div>
         <img id="preview" src="#" alt="Previsualización de la imagen">
       </div>
       <div>
-        <button type="button" onclick="postGato()">Enviar</button>
-        <button type="button" onclick="getGatos()">Enviar</button>
+        <button type="button" onclick="postGato()">Hacer mi Gatomem</button>
+        <button type="button" onclick="getGatos()">Ver mis Gatomem</button>
       </div>
     </form>
     <div id="resultado"></div>
