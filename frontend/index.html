@@ -49,7 +49,7 @@
       </div>
       <div>
         <label for="strong">Fuerte contra:</label>
-        <select id="type" name="type" required>
+        <select id="strong" name="strong" required>
           <option value="fuego">Fuego</option>
           <option value="agua">Agua</option>
           <option value="planta">Planta</option>
@@ -59,11 +59,8 @@
           <option value="tierra">Tierra</option>
         </select>
       </div>
-      <div>
-        <label for="image">Imagen:</label>
-        <div class="file-upload">
-          <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(event)">
-          <span>Upload</span>
+          <label for="image">URL IMAGEN</label>
+          <input type="text" id="image" name="image" required>
         </div>
         <img id="preview" src="#" alt="Previsualización de la imagen">
       </div>

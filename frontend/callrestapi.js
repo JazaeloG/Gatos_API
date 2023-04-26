@@ -10,17 +10,7 @@ function postGato(){
     var myDefense = $('#defense').val();
     var myCounter = $('#counter').val();
     var myStrong = $('#strong').val();
-
-    var fileInput = $('#image')[0];
-    var file = fileInput.files[0];
-    if (!file) {
-        console.log("No se ha seleccionado un archivo.");
-        return;
-    }
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-        var myImage = reader.result;
+    var myImage= $('#image').val();
         var mygato ={
             name : myName,
             attack : myAttack,
@@ -46,16 +36,7 @@ function postGato(){
             data: JSON.stringify(mygato)
         });
     };
-    var reader = new FileReader();
-reader.onload = function () {
-    // código para procesar el archivo
-};
-reader.onerror = function () {
-    console.log("Error al leer el archivo");
-};
-reader.readAsDataURL(file);
-
-}
+reader
 
 function getGatos(){
     console.log(url);
@@ -75,7 +56,7 @@ function getGatos(){
                     '<h2 class="pokemon-card__name">' + item.name + '</h2>' +
                 '</div>' +
                 '<div class="pokemon-card__image">' +
-                    '<img src="data:image/png;base64,' + item.image + '" alt="' + item.name + '">' +
+                    '<img src="' + item.image +'" witdh="150" height="150">' +
                 '</div>' +
                 '<div class="pokemon-card__body">' +
                     '<table>' +
@@ -114,4 +95,3 @@ function previewImage(event) {
       preview.style.display = 'none';
     }
   }
-  
