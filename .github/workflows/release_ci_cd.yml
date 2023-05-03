@@ -1,56 +1,77 @@
-name: master CI, CD workflow 
-on: 
+name: Master CI/CD Workflow
+
+on:
   push:
-    branches: [ "main"]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main"]
+    branches: [ "main" ]
+
 jobs:
   master-ci-cd:
     runs-on: ubuntu-latest
+
     steps:
+      # Paso 1: Checkout del repositorio
       - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
+        with:
+          ref: main
+          # Agregar la ruta del archivo k8s.yml para asegurarse de que se incluya en la revisión
+          path: manifests/k8s.yml
+
+      # Paso 2: Configurar Node.js
+      - name: Usar Node.js 16.x
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - name: make .env 
+
+      # Paso 3: Crear el archivo .env
+      - name: Crear archivo .env
         uses: SpicyPizza/create-envfile@v1.3
         with:
-          envkey_DEV_DATABASE_URL : ${{ secrets.DEV_DATABASE_URL }}
+          envkey_DEV_DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
           file_name: .env
           fail_on_empty: false
-      
-      - name: show dir, .env file
-        run: |
-          cat .env 
-          
-      - name: Build the custom Docker image
-        run: docker build -t ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}} .
 
-      - name: show docker images
+      # Paso 4: Mostrar el contenido del archivo .env
+      - name: Mostrar el contenido de .env
+        run: |
+          cat .env
+
+      # Paso 5: Construir la imagen de Docker personalizada
+      - name: Construir imagen de Docker personalizada
+        run: docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.MODEL_NAME }}:${{ github.sha }} .
+
+      # Paso 6: Mostrar las imágenes de Docker
+      - name: Mostrar imágenes de Docker
         run: docker images
 
-      - name: docker login
+      # Paso 7: Iniciar sesión en Docker
+      - name: Iniciar sesión en Docker
         env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
-          
-      - name: Docker Push
-        run: docker push ${{secrets.DOCKER_USER}}/${{secrets.MODEL_NAME}}:${{github.sha}}
-      
-      - name: update docker user in k8 
-        run: sed -i 's/${docker_user}/${{secrets.DOCKER_USER}}/g' manifests/k8s.yml
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: update model name in k8 
-        run: sed -i 's/${model_name}/${{secrets.MODEL_NAME}}/g' manifests/k8s.yml
+      # Paso 8: Empujar la imagen de Docker al registro
+      - name: Empujar imagen de Docker al registro
+        run: docker push ${{ secrets.DOCKER_USER }}/${{ secrets.MODEL_NAME }}:${{ github.sha }}
 
-      - name: update _ by - 
+      # Paso 9: Actualizar el usuario de Docker en el archivo k8s.yml
+      - name: Actualizar el usuario de Docker en k8s
+        run: sed -i 's/${docker_user}/${{ secrets.DOCKER_USER }}/g' manifests/k8s.yml
+
+      # Paso 10: Actualizar el nombre del modelo en el archivo k8s.yml
+      - name: Actualizar el nombre del modelo en k8s
+        run: sed -i 's/{model_name}/${{ secrets.MODEL_NAME }}/g' manifests/k8s.yml
+
+      # Paso 11: Reemplazar los guiones bajos con guiones en el archivo k8s.yml
+      - name: Reemplazar guiones bajos con guiones en k8s
         run: sed -i 's/_/-/g' manifests/k8s.yml
 
-      - name: update sha in k8
-        run: sed -i 's/{github.sha}/${{github.sha}}/g' manifests/k8s.yml
+      # Paso 12: Actualizar la versión SHA en el archivo k8s.yml
+      - name: Actualizar SHA en k8s
+        run: sed -i 's/{github.sha}/${{ github.sha }}/g' manifests/k8s.yml
 
       - name: ls -la 
         run: cat manifests/k8s.yml
